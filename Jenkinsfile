@@ -8,7 +8,7 @@ pipeline {
 		}
 		stage('listConfig') {
 			steps {
-				sh 'ls'
+				sh 'akamai'
 			}
 		}
 	}
