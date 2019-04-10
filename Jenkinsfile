@@ -1,9 +1,14 @@
 pipeline {
 	agent any
 	stages {
-		stage('Build') {
+		stage('InitialMessage') {
 			steps {
 				echo 'Runing build stage'
+			}
+		}
+		stage('listConfig') {
+			steps {
+				akamai
 			}
 		}
 	}
