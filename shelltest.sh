@@ -1,3 +1,4 @@
 #!/bin/bash
-ls -l
-pwd
+git add --all
+git commit -m "automated"
+git push
