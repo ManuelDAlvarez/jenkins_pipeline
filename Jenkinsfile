@@ -8,7 +8,7 @@ pipeline {
 		}
 		stage('listConfig') {
 			steps {
-				sh 'akamai'
+				sh 'akamai list --remote'
 			}
 		}
 	}
