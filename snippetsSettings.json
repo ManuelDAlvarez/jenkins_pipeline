@@ -1,0 +1,9 @@
+{
+    "edgeGridConfig": {
+        "section": "GSSClinic"
+    },
+    "emails": [
+        "maalvare@akamai.com"
+    ],
+    "outputFormat": "json"
+}

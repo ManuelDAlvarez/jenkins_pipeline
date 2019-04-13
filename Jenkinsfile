@@ -6,19 +6,14 @@ pipeline {
 				echo 'Runing build stage'
 			}
 		}
-		stage('apsec') {
+		stage('echos') {
 			steps {
-				sh 'akamai install apsec'
+				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 			}
 		}
 		stage('cps') {
 			steps {
-				sh 'akamai install cps'
-			}
-		}
-		stage('firewall') {
-			steps {
-				sh 'akamai install firewall'
+				sh "akamai ${env.BUILD_ID}"
 			}
 		}
 	}

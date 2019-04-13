@@ -1,0 +1,12 @@
+[2019-04-12T15:35:04.023] [INFO] devops-prov.factory - Using credentials file: '/Users/maalvare/.edgerc', section: 'GSSClinic'
+[2019-04-12T15:35:04.029] [INFO] devops-prov - Setting default client id section to 'GSSClinic
+[2019-04-12T15:35:04.029] [INFO] pm-cli - updating PM CLI settings
+[2019-04-12T15:35:04.030] [INFO] devops-prov.utils - writing '/Users/maalvare/Documents/Code/Jenkins/repo/jenkins_pipeline/snippetsSettings.json'
+[2019-04-12T15:35:04.031] [INFO] devops-prov - Setting default notification emails to 'maalvare@akamai.com'
+[2019-04-12T15:35:04.031] [INFO] pm-cli - updating PM CLI settings
+[2019-04-12T15:35:04.031] [INFO] devops-prov.utils - loading '/Users/maalvare/Documents/Code/Jenkins/repo/jenkins_pipeline/snippetsSettings.json'
+[2019-04-12T15:35:04.031] [INFO] devops-prov.utils - writing '/Users/maalvare/Documents/Code/Jenkins/repo/jenkins_pipeline/snippetsSettings.json'
+[2019-04-12T15:35:04.032] [INFO] devops-prov - Setting default format to 'json'
+[2019-04-12T15:35:04.032] [INFO] pm-cli - updating PM CLI settings
+[2019-04-12T15:35:04.032] [INFO] devops-prov.utils - loading '/Users/maalvare/Documents/Code/Jenkins/repo/jenkins_pipeline/snippetsSettings.json'
+[2019-04-12T15:35:04.032] [INFO] devops-prov.utils - writing '/Users/maalvare/Documents/Code/Jenkins/repo/jenkins_pipeline/snippetsSettings.json'
