@@ -15,11 +15,12 @@ pipeline {
 		stage('echos') {
 			steps {
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
+				sh "pwd"
 			}
 		}
 		stage('thaos') {
 			steps {
-				sh "http --auth-type edgegrid : :/papi/v1/contracts/" 
+				sh "http --auth-type edgegrid -a default: :/papi/v1/contracts/" 
 			}
 		}
 	}
