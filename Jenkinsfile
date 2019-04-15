@@ -19,7 +19,7 @@ pipeline {
 		}
 		stage('thaos') {
 			steps {
-				
+				sh "http --auth-type edgegrid : :/papi/v1/contracts/" 
 			}
 		}
 	}
