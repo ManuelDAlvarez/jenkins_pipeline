@@ -1,0 +1,575 @@
+{
+  "accountId": "act_B-P-2MUILAN",
+  "contractId": "ctr_P-2MU96M3",
+  "groupId": "grp_131645",
+  "propertyId": "prp_510537",
+  "propertyName": "www.gssclinic.net",
+  "propertyVersion": 25,
+  "etag": "991d8766044b950b6286e8e58eb8879d411ddbbb",
+  "rules": {
+    "name": "default",
+    "children": [
+      {
+        "name": "Performance",
+        "children": [
+          {
+            "name": "Compressible Objects",
+            "children": [],
+            "behaviors": [
+              {
+                "name": "gzipResponse",
+                "options": {
+                  "behavior": "ALWAYS"
+                }
+              }
+            ],
+            "criteria": [
+              {
+                "name": "contentType",
+                "options": {
+                  "matchCaseSensitive": false,
+                  "matchOperator": "IS_ONE_OF",
+                  "matchWildcard": true,
+                  "values": [
+                    "text/*",
+                    "application/javascript",
+                    "application/x-javascript",
+                    "application/x-javascript*",
+                    "application/json",
+                    "application/x-json",
+                    "application/*+json",
+                    "application/*+xml",
+                    "application/text",
+                    "application/vnd.microsoft.icon",
+                    "application/vnd-ms-fontobject",
+                    "application/x-font-ttf",
+                    "application/x-font-opentype",
+                    "application/x-font-truetype",
+                    "application/xmlfont/eot",
+                    "application/xml",
+                    "font/opentype",
+                    "font/otf",
+                    "font/eot",
+                    "image/svg+xml",
+                    "image/vnd.microsoft.icon"
+                  ]
+                }
+              }
+            ],
+            "criteriaMustSatisfy": "all",
+            "comments": "Compresses content to improve performance of clients with slow connections. Applies Last Mile Acceleration to requests when the returned object supports gzip compression."
+          }
+        ],
+        "behaviors": [
+          {
+            "name": "enhancedAkamaiProtocol",
+            "options": {
+              "display": ""
+            }
+          },
+          {
+            "name": "allowTransferEncoding",
+            "options": {
+              "enabled": true
+            }
+          },
+          {
+            "name": "removeVary",
+            "options": {
+              "enabled": true
+            }
+          }
+        ],
+        "criteria": [],
+        "criteriaMustSatisfy": "all",
+        "comments": "Improves the performance of delivering objects to end users. Behaviors in this rule are applied to all requests as appropriate."
+      },
+      {
+        "name": "Offload",
+        "children": [
+          {
+            "name": "CSS and JavaScript",
+            "children": [],
+            "behaviors": [
+              {
+                "name": "caching",
+                "options": {
+                  "behavior": "MAX_AGE",
+                  "mustRevalidate": false,
+                  "ttl": "1d"
+                }
+              },
+              {
+                "name": "prefreshCache",
+                "options": {
+                  "enabled": true,
+                  "prefreshval": 90
+                }
+              }
+            ],
+            "criteria": [
+              {
+                "name": "fileExtension",
+                "options": {
+                  "matchCaseSensitive": false,
+                  "matchOperator": "IS_ONE_OF",
+                  "values": [
+                    "css",
+                    "js"
+                  ]
+                }
+              }
+            ],
+            "criteriaMustSatisfy": "any",
+            "comments": "Overrides the default caching behavior for CSS and JavaScript objects that are cached on the edge server. Because these object types are dynamic, the TTL is brief."
+          },
+          {
+            "name": "Static Objects",
+            "children": [],
+            "behaviors": [
+              {
+                "name": "caching",
+                "options": {
+                  "behavior": "MAX_AGE",
+                  "mustRevalidate": false,
+                  "ttl": "7d"
+                }
+              },
+              {
+                "name": "prefreshCache",
+                "options": {
+                  "enabled": true,
+                  "prefreshval": 90
+                }
+              }
+            ],
+            "criteria": [
+              {
+                "name": "fileExtension",
+                "options": {
+                  "matchCaseSensitive": false,
+                  "matchOperator": "IS_ONE_OF",
+                  "values": [
+                    "aif",
+                    "aiff",
+                    "au",
+                    "avi",
+                    "bin",
+                    "bmp",
+                    "cab",
+                    "carb",
+                    "cct",
+                    "cdf",
+                    "class",
+                    "doc",
+                    "dcr",
+                    "dtd",
+                    "exe",
+                    "flv",
+                    "gcf",
+                    "gff",
+                    "gif",
+                    "grv",
+                    "hdml",
+                    "hqx",
+                    "ico",
+                    "ini",
+                    "jpeg",
+                    "jpg",
+                    "mov",
+                    "mp3",
+                    "nc",
+                    "pct",
+                    "pdf",
+                    "png",
+                    "ppc",
+                    "pws",
+                    "swa",
+                    "swf",
+                    "txt",
+                    "vbs",
+                    "w32",
+                    "wav",
+                    "wbmp",
+                    "wml",
+                    "wmlc",
+                    "wmls",
+                    "wmlsc",
+                    "xsd",
+                    "zip",
+                    "pict",
+                    "tif",
+                    "tiff",
+                    "mid",
+                    "midi",
+                    "ttf",
+                    "eot",
+                    "woff",
+                    "woff2",
+                    "otf",
+                    "svg",
+                    "svgz",
+                    "webp",
+                    "jxr",
+                    "jar",
+                    "jp2"
+                  ]
+                }
+              }
+            ],
+            "criteriaMustSatisfy": "any",
+            "comments": "Overrides the default caching behavior for images, music, and similar objects that are cached on the edge server. Because these object types are static, the TTL is long."
+          },
+          {
+            "name": "Uncacheable Responses",
+            "children": [],
+            "behaviors": [
+              {
+                "name": "downstreamCache",
+                "options": {
+                  "behavior": "TUNNEL_ORIGIN"
+                }
+              }
+            ],
+            "criteria": [
+              {
+                "name": "cacheability",
+                "options": {
+                  "matchOperator": "IS_NOT",
+                  "value": "CACHEABLE"
+                }
+              }
+            ],
+            "criteriaMustSatisfy": "all",
+            "comments": "Overrides the default downstream caching behavior for uncacheable object types. Instructs the edge server to pass Cache-Control and/or Expire headers from the origin to the client."
+          }
+        ],
+        "behaviors": [
+          {
+            "name": "caching",
+            "options": {
+              "behavior": "NO_STORE"
+            }
+          },
+          {
+            "name": "cacheError",
+            "options": {
+              "enabled": true,
+              "preserveStale": true,
+              "ttl": "10s"
+            }
+          },
+          {
+            "name": "downstreamCache",
+            "options": {
+              "allowBehavior": "LESSER",
+              "behavior": "ALLOW",
+              "sendHeaders": "CACHE_CONTROL_AND_EXPIRES",
+              "sendPrivate": false
+            }
+          }
+        ],
+        "criteria": [],
+        "criteriaMustSatisfy": "all",
+        "comments": "Controls caching, which offloads traffic away from the origin. Most objects types are not cached. However, the child rules override this behavior for certain subsets of requests."
+      },
+      {
+        "name": "API",
+        "children": [],
+        "behaviors": [
+          {
+            "name": "origin",
+            "options": {
+              "originType": "CUSTOMER",
+              "hostname": "origin-api.urbancrawlapp.com",
+              "forwardHostHeader": "CUSTOM",
+              "cacheKeyHostname": "REQUEST_HOST_HEADER",
+              "compress": true,
+              "enableTrueClientIp": false,
+              "originCertificate": "",
+              "verificationMode": "CUSTOM",
+              "ports": "",
+              "httpPort": 80,
+              "httpsPort": 443,
+              "originSni": true,
+              "customValidCnValues": [
+                "{{Origin Hostname}}",
+                "{{Forward Host Header}}"
+              ],
+              "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+              "standardCertificateAuthorities": [
+                "akamai-permissive"
+              ],
+              "customForwardHostHeader": "gssclinic.world-tour.akamaideveloper.net"
+            }
+          },
+          {
+            "name": "rewriteUrl",
+            "options": {
+              "behavior": "REPLACE",
+              "keepQueryString": true,
+              "match": "/api/v2/",
+              "targetPath": "/v2/",
+              "matchMultiple": false
+            }
+          }
+        ],
+        "criteria": [
+          {
+            "name": "path",
+            "options": {
+              "matchOperator": "MATCHES_ONE_OF",
+              "values": [
+                "/api/v2/*"
+              ],
+              "matchCaseSensitive": false
+            }
+          }
+        ],
+        "criteriaMustSatisfy": "all"
+      },
+      {
+        "name": "Images",
+        "children": [],
+        "behaviors": [
+          {
+            "name": "origin",
+            "options": {
+              "originType": "CUSTOMER",
+              "hostname": "s3.amazonaws.com",
+              "forwardHostHeader": "ORIGIN_HOSTNAME",
+              "cacheKeyHostname": "REQUEST_HOST_HEADER",
+              "compress": true,
+              "enableTrueClientIp": false,
+              "originCertificate": "",
+              "verificationMode": "CUSTOM",
+              "ports": "",
+              "httpPort": 80,
+              "httpsPort": 443,
+              "originSni": true,
+              "customValidCnValues": [
+                "{{Origin Hostname}}",
+                "{{Forward Host Header}}"
+              ],
+              "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+              "standardCertificateAuthorities": [
+                "akamai-permissive",
+                "THIRD_PARTY_AMAZON"
+              ]
+            }
+          },
+          {
+            "name": "cacheError",
+            "options": {
+              "enabled": true,
+              "ttl": "1s",
+              "preserveStale": true
+            }
+          },
+          {
+            "name": "caching",
+            "options": {
+              "behavior": "MAX_AGE",
+              "mustRevalidate": false,
+              "ttl": "30s"
+            }
+          },
+          {
+            "name": "cacheKeyQueryParams",
+            "options": {
+              "behavior": "IGNORE_ALL"
+            }
+          },
+          {
+            "name": "rewriteUrl",
+            "options": {
+              "behavior": "PREPEND",
+              "keepQueryString": false,
+              "targetPathPrepend": "/akamaidev-world-tour/"
+            }
+          }
+        ],
+        "criteria": [
+          {
+            "name": "path",
+            "options": {
+              "matchOperator": "MATCHES_ONE_OF",
+              "values": [
+                "/img/*"
+              ],
+              "matchCaseSensitive": false
+            }
+          }
+        ],
+        "criteriaMustSatisfy": "all"
+      },
+      {
+        "name": "Image Manager",
+        "children": [],
+        "behaviors": [
+          {
+            "name": "caching",
+            "options": {
+              "behavior": "MAX_AGE",
+              "mustRevalidate": false,
+              "ttl": "30d"
+            }
+          },
+          {
+            "name": "imageManager",
+            "options": {
+              "settingsTitle": "",
+              "enabled": true,
+              "superCacheRegion": "US",
+              "trafficTitle": "",
+              "cpCodeOriginal": {
+                "id": 813303,
+                "description": "gssclinic-pristine",
+                "products": [
+                  "SPM"
+                ],
+                "createdDate": 1548054079000,
+                "cpCodeLimits": null,
+                "name": "gssclinic-pristine"
+              },
+              "cpCodeTransformed": {
+                "id": 813304,
+                "description": "gssclinic-derivative",
+                "products": [
+                  "SPM"
+                ],
+                "createdDate": 1548054092000,
+                "cpCodeLimits": null,
+                "name": "gssclinic-derivative"
+              },
+              "apiReferenceTitle": "",
+              "advanced": false,
+              "resize": false,
+              "applyBestFileType": true,
+              "policyTokenDefault": "www_gssclinic_net"
+            }
+          }
+        ],
+        "criteria": [
+          {
+            "name": "fileExtension",
+            "options": {
+              "matchOperator": "IS_ONE_OF",
+              "values": [
+                "jpg",
+                "gif",
+                "jpeg",
+                "png",
+                "imviewer"
+              ],
+              "matchCaseSensitive": false
+            }
+          }
+        ],
+        "criteriaMustSatisfy": "all"
+      }
+    ],
+    "behaviors": [
+      {
+        "name": "origin",
+        "options": {
+          "cacheKeyHostname": "REQUEST_HOST_HEADER",
+          "compress": true,
+          "enableTrueClientIp": false,
+          "forwardHostHeader": "ORIGIN_HOSTNAME",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "originSni": true,
+          "originType": "CUSTOMER",
+          "verificationMode": "CUSTOM",
+          "hostname": "origin-web.urbancrawlapp.com",
+          "originCertificate": "",
+          "ports": "",
+          "customValidCnValues": [
+            "{{Origin Hostname}}",
+            "{{Forward Host Header}}"
+          ],
+          "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+          "standardCertificateAuthorities": [
+            "akamai-permissive"
+          ]
+        }
+      },
+      {
+        "name": "cpCode",
+        "options": {
+          "value": {
+            "id": 810121,
+            "description": "Ion1",
+            "products": [
+              "SPM"
+            ],
+            "createdDate": 1547460559000,
+            "cpCodeLimits": null,
+            "name": "Ion1"
+          }
+        }
+      },
+      {
+        "name": "allowPost",
+        "options": {
+          "allowWithoutContentLength": false,
+          "enabled": true
+        }
+      },
+      {
+        "name": "realUserMonitoring",
+        "options": {
+          "enabled": true
+        }
+      },
+      {
+        "name": "rapid",
+        "options": {
+          "enabled": true
+        }
+      }
+    ],
+    "options": {
+      "is_secure": false
+    },
+    "variables": [],
+    "comments": "The behaviors in the Default Rule apply to all requests for the property hostname(s) unless another rule overrides the Default Rule settings."
+  },
+  "warnings": [
+    {
+      "type": "https://problems.luna.akamaiapis.net/papi/v0/validation/validation_message.ssl_custom_warning_test_staging",
+      "errorLocation": "#/rules/behaviors/0",
+      "detail": "If you are changing your `Origin Server` SSL Certificate Verification settings it is strongly recommended that you test on Staging before activating on Production. Failure to test on Staging may result in a service outage."
+    },
+    {
+      "type": "https://problems.luna.akamaiapis.net/papi/v0/validation/generic_behavior_issue.rum_eol",
+      "errorLocation": "#/rules/behaviors/3",
+      "detail": "<strong> Important </strong>: We recommend using an mPulse behavior instead on this property. mPulse is Akamai's recommended source of RUM data going forward"
+    },
+    {
+      "type": "https://problems.luna.akamaiapis.net/papi/v0/validation/validation_message.ssl_custom_warning_test_staging",
+      "errorLocation": "#/rules/children/2/behaviors/0",
+      "detail": "If you are changing your `Origin Server` SSL Certificate Verification settings it is strongly recommended that you test on Staging before activating on Production. Failure to test on Staging may result in a service outage."
+    },
+    {
+      "type": "https://problems.luna.akamaiapis.net/papi/v0/validation/validation_message.ssl_custom_warning_test_staging",
+      "errorLocation": "#/rules/children/3/behaviors/0",
+      "detail": "If you are changing your `Origin Server` SSL Certificate Verification settings it is strongly recommended that you test on Staging before activating on Production. Failure to test on Staging may result in a service outage."
+    },
+    {
+      "type": "https://problems.luna.akamaiapis.net/papi/v0/validation/validation_message.changing_cpcode_warning",
+      "errorLocation": "#/rules/children/4/behaviors/1",
+      "detail": "The CP codes in `Image Manager` affect cache IDs for cached images. If you change these CP codes after using this configuration in your production environment, IM will refresh the caches, which could negatively impact performance and load at your origin."
+    },
+    {
+      "title": "Unstable rule format",
+      "type": "https://problems.luna.akamaiapis.net/papi/v0/unstable_rule_format",
+      "detail": "This property is using `latest` rule format, which is designed to reflect interface changes immediately. We suggest converting the property to a stable rule format such as `v2018-09-12` to minimize the risk of interface changes breaking your API client program.",
+      "currentRuleFormat": "latest",
+      "suggestedRuleFormat": "v2018-09-12"
+    }
+  ],
+  "ruleFormat": "latest",
+  "comments": "DO NOT MODIFY or CREATE NEW VERSIONS OF THIS CONFIG!"
+}

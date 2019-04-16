@@ -14,20 +14,30 @@ pipeline {
 		}
 		stage('cloneconfig') {
 			steps {
-				//sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
+				sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
 				//sh "http --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq "
-				sh "akamai install property-manager"
+				//echo "this section will clone a configuration"
 			}
 		}
 		stage('getconfig') {
 			steps {
-				sh " akamai property-manager import --property bigmanuel.edgesuite.net"
+				sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
 			}
 		}
-		stage('installtree') {
+		stage('updatecpcode') {
 			steps {
-				sh "brew install tree"
-				sh "tree"
+				sh "sed -i -n 's/810121/842943/g' metadata.json"
+				//sh "sed -n 's/810121/842943/gw updatedconfig.xml' metadata.xml"
+			}
+		}
+		stage('updateconfiguration') {
+			steps {
+				sh "akamai property update ${CONFIGNAME} --file metadata.json"
+			}
+		}
+		stage('activatedelivery') {
+			steps {
+				sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
 			}
 		}
 	}
