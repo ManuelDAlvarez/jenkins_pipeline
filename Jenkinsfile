@@ -9,18 +9,17 @@ pipeline {
 		stage('Messages') {
 			steps {
 				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-				sh "akamai ${env.BUILD_ID}"
 			}
 		}
 		stage('echos') {
 			steps {
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
-				sh "pwd"
+				sh "jq"
 			}
 		}
-		stage('thaos') {
+		stage('cloneconfig') {
 			steps {
-				sh "http --auth-type edgegrid -a default: :/papi/v1/contracts/" 
+				sh "akamai property create maalvare-${env.BUILD_ID} --clone www.gssclinic.net --hostnames ${env.BUILD_ID}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
 			}
 		}
 	}
