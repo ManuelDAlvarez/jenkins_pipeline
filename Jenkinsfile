@@ -16,7 +16,7 @@ pipeline {
 			steps {
 				//sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
 				//sh "http --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq "
-				echo 'bigmanuel.edgesuite.net'
+				sh "akamai install property-manager"
 			}
 		}
 		stage('getconfig') {
