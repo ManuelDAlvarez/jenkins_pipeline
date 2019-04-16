@@ -10,10 +10,6 @@ pipeline {
 			steps {
 				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 				//https://gcs.akshayranganath.com/env-vars.html/
-			}
-		}
-		stage('echos') {
-			steps {
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
 				sh "jq"
 			}
@@ -21,7 +17,7 @@ pipeline {
 		stage('cloneconfig') {
 			steps {
 				//sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
-				sh "http -v --auth-type edgegrid -a GSSClinic: :/papi/v1/contracts"
+				sh "http -v --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq"
 			}
 		}
 	}
