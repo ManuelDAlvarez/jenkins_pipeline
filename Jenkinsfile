@@ -2,7 +2,7 @@ pipeline {
 	agent any
 	parameters {
         choice(name: 'NETWORK', choices: ['staging', 'production'], description: 'The network to activate the network list.')
-    	string(name: 'CONFIGNAME', defaultValue: 'Manuel'"${env.BUILD_ID}", description: 'The new domain name') 
+    	string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The new domain name') 
     }
 
 	stages {
