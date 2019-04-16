@@ -19,7 +19,8 @@ pipeline {
 		}
 		stage('cloneconfig') {
 			steps {
-				sh "akamai property create maalvare-${env.BUILD_ID} --clone www.gssclinic.net --hostnames ${env.BUILD_ID}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
+				//sh "akamai property create maalvare-${env.BUILD_ID} --clone www.gssclinic.net --hostnames ${env.BUILD_ID}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
+				sh "http --auth-type edgegrid -a GSSClinic: :/papi/v1/contracts"
 			}
 		}
 	}
