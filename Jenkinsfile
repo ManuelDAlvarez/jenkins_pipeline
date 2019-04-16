@@ -9,6 +9,7 @@ pipeline {
 		stage('Messages') {
 			steps {
 				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+				//https://gcs.akshayranganath.com/env-vars.html/
 			}
 		}
 		stage('echos') {
