@@ -8,7 +8,6 @@ pipeline {
     	PROJ = "/bin:/usr/local/bin:/usr/bin"
 	}
 	stages {
-		withEnv(["PATH+EXTRA=$PROJ"]) {
 		stage('Messages') {
 			steps {
 				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
@@ -18,16 +17,18 @@ pipeline {
 		}
 		stage('cloneconfig') {
 			steps {
-				
+				withEnv(["PATH+EXTRA=$PROJ"]) {
 					//sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
 					sh "akamai property create ${CONFIGNAME} --clone bigmanuel.edgesuite.net --hostnames ${CONFIGNAME} --edgehostname bigmanuel.edgesuite.net"
 					//sh "http --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq "
-				
+				}
 			}
 		}
 		stage('getconfig') {
 			steps {
-				sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
+				withEnv(["PATH+EXTRA=$PROJ"]) {
+					sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
+				}
 			}
 		}
 		stage('updatecpcode') {
@@ -47,5 +48,4 @@ pipeline {
 			}
 		}
 	}
-}
 }
