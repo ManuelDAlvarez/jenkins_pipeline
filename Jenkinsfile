@@ -10,7 +10,7 @@ pipeline {
 			steps {
 				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
-				sh "http --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq "
+				sh "http --auth-type edgegrid -a default: GET :/papi/v1/contracts | jq "
 			}
 		}
 		stage('cloneconfig') {
