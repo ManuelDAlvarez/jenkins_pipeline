@@ -43,7 +43,7 @@ pipeline {
 		stage('updateConfiguration') {https://open.spotify.com/album/6BkeUWI72Lssc077AxqQek
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					sh "akamai property update ${CONFIGNAME} --file metadata.json"
+					sh "akamai property update ${CONFIGNAME} --file 2metadata.json"
 					//echo "yes"
 				}
 			}
