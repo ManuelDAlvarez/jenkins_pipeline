@@ -15,7 +15,7 @@ pipeline {
 				//sh "http --auth-type edgegrid -a default: GET :/papi/v1/contracts | jq "
 			}
 		}
-		/*stage('cloneconfig') {
+		stage('cloneconfig') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					//sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
@@ -23,12 +23,12 @@ pipeline {
 					//sh "http --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq "
 				}
 			}
-		}*/
-		stage('getconfig') {
+		}
+		stage('updateJSON') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
-					sh "akamai property retrieve PROD.bigmanuel --file metadata.json"
+					sh "akamai property retrieve ${CONFIGNAME} --file metadata.json"
+					//sh "akamai property retrieve PROD.bigmanuel --file metadata.json"
 					archiveArtifacts "metadata.json"
 					sh "cat metadata.json"
 					sh "sed 's/378312/371349/g' metadata.json > 2metadata.json"
@@ -40,19 +40,19 @@ pipeline {
 				}
 			}
 		}
-		stage('updateconfiguration') {
+		stage('updateConfiguration') {https://open.spotify.com/album/6BkeUWI72Lssc077AxqQek
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai property update ${CONFIGNAME} --file metadata.json"
-					echo "yes"
+					sh "akamai property update ${CONFIGNAME} --file 2metadata.json"
+					//echo "yes"
 				}
 			}
 		}
 		stage('activatedelivery') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
-					echo "yes too"
+					sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
+					//echo "yes too"
 				}
 			}
 		}
