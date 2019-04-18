@@ -37,6 +37,12 @@ pipeline {
 				//sh "sed -i -n s/810121/842943/g metadata.json"	
 			}
 		}
+		stage('readJSON') {
+			steps {
+				sh "tail metadata.json"
+				//sh "sed -i -n s/810121/842943/g metadata.json"	
+			}
+		}
 		stage('updateconfiguration') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
