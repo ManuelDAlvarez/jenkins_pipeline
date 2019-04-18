@@ -32,7 +32,7 @@ pipeline {
 					archiveArtifacts "metadata.json"
 					sh "cat metadata.json"
 					sh "sed 's/378312/371349/g' metadata.json > 2metadata.json"
-					archiveArtifacts "metadata.json"
+					//archiveArtifacts "metadata.json"
 					archiveArtifacts "2metadata.json"
 					//sh "sed -i -n s/810121/842943/g metadata.json"
 					sh "cat metadata.json"
