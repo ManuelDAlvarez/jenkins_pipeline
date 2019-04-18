@@ -38,15 +38,15 @@ pipeline {
 			}
 		}
 		stage('updateconfiguration') {
-			withEnv(["PATH+EXTRA=$PROJ"]) {
-				steps {
+			steps {
+				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai property update ${CONFIGNAME} --file metadata.json"
 				}
 			}
 		}
 		stage('activatedelivery') {
-			withEnv(["PATH+EXTRA=$PROJ"]) {
-				steps {
+			steps {
+				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
 				}
 			}
