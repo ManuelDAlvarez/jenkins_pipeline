@@ -15,7 +15,7 @@ pipeline {
 				//sh "http --auth-type edgegrid -a default: GET :/papi/v1/contracts | jq "
 			}
 		}
-		stage('cloneconfig') {
+		/*stage('cloneconfig') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					//sh "akamai property create ${CONFIGNAME} --clone www.gssclinic.net --hostnames ${CONFIGNAME}.gssclinic.world-tour.akamaideveloper.net --edgehostname gssclinic.world-tour.akamaideveloper.net.edgesuite.net" 
@@ -23,11 +23,12 @@ pipeline {
 					//sh "http --auth-type edgegrid -a GSSClinic: GET :/papi/v1/contracts | jq "
 				}
 			}
-		}
+		}*/
 		stage('getconfig') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
+					//sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
+					sh "akamai property retrieve PROD.bigmanuel > metadata.json"
 				}
 			}
 		}
@@ -39,7 +40,7 @@ pipeline {
 		}
 		stage('readJSON') {
 			steps {
-				sh "tail metadata.json"
+				sh "cat metadata.json"
 				//sh "sed -i -n s/810121/842943/g metadata.json"	
 			}
 		}
