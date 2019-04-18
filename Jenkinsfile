@@ -29,32 +29,25 @@ pipeline {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					//sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
 					sh "akamai property retrieve PROD.bigmanuel > metadata.json"
+					sh "sed -i -n 's/378312/371349/g' metadata.json"
+					//sh "sed -i -n s/810121/842943/g metadata.json"
+					sh "cat metadata.json"
 				}
-			}
-		}
-		stage('updatecpcode') {
-			steps {
-				sh "sed -i -n 's/378312/371349/g' metadata.json"
-				//sh "sed -i -n s/810121/842943/g metadata.json"	
-			}
-		}
-		stage('readJSON') {
-			steps {
-				sh "cat metadata.json"
-				//sh "sed -i -n s/810121/842943/g metadata.json"	
 			}
 		}
 		stage('updateconfiguration') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					sh "akamai property update ${CONFIGNAME} --file metadata.json"
+					//sh "akamai property update ${CONFIGNAME} --file metadata.json"
+					echo "yes"
 				}
 			}
 		}
 		stage('activatedelivery') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
+					//sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
+					echo "yes too"
 				}
 			}
 		}
