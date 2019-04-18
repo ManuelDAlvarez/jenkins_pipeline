@@ -31,9 +31,12 @@ pipeline {
 					sh "akamai property retrieve PROD.bigmanuel --file metadata.json"
 					archiveArtifacts "metadata.json"
 					sh "cat metadata.json"
-					sh "sed -i -n 's/378312/371349/g' metadata.json"
+					sh "sed 's/378312/371349/g' metadata.json > 2metadata.json"
+					archiveArtifacts "metadata.json"
+					archiveArtifacts "2metadata.json"
 					//sh "sed -i -n s/810121/842943/g metadata.json"
 					sh "cat metadata.json"
+					sh "cat 2metadata.json"
 				}
 			}
 		}
