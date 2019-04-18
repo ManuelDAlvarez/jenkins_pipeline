@@ -29,6 +29,8 @@ pipeline {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					//sh "akamai property retrieve ${CONFIGNAME} > metadata.json"
 					sh "akamai property retrieve PROD.bigmanuel --file metadata.json"
+					archiveArtifacts "metadata.json"
+					sh "cat metadata.json"
 					sh "sed -i -n 's/378312/371349/g' metadata.json"
 					//sh "sed -i -n s/810121/842943/g metadata.json"
 					sh "cat metadata.json"
