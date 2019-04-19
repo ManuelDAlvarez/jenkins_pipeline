@@ -2,7 +2,8 @@ pipeline {
 	agent any
 	parameters {
         choice(name: 'NETWORK', choices: ['staging', 'production'], description: 'The network to activate the network list.')
-    	string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The new domain name') 
+    	//string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The new domain name') 
+    	string(name: 'CONFIGNAME', defaultValue: "manueltet33.edgesuite.net", description: 'The new domain name') 
     }
     environment {
     	PROJ = "/bin:/usr/local/bin:/usr/bin"
