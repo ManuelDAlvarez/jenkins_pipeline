@@ -1,8 +1,8 @@
 pipeline {
 	agent any
 	parameters {
-        choice(name: 'NETWORK', choices: ['staging', 'production'], description: 'The network to activate the network list.')
-    	string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The new domain name') 
+        choice(name: 'NETWORK', choices: ['staging', 'production'], description: 'The network to activate the configuration.')
+    	string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The domain you are adding to the configurations') 
     	//string(name: 'CONFIGNAME', defaultValue: "manueltest33.edgesuite.net", description: 'The new domain name') 
     }
     environment {
@@ -58,5 +58,43 @@ pipeline {
 				}
 			}
 		}
+
+		stage('CreateNewVersion') {
+			steps {
+				withEnv(["PATH+EXTRA=$PROJ"]) {
+					//sh "akamai appsec configs --section default --json | jq '.configurations[] | select (.name | test (\"gss-ta-demo\"))'"
+					sh "akamai appsec --section default clone --config=40539 --version=STAGING"
+					//${NETWORK}"
+				}
+			}
+		}
+		stage('AddHostname') {
+			steps {
+				withEnv(["PATH+EXTRA=$PROJ"]) {
+					sh "akamai appsec --section default add-hostname --config=40539 ${CONFIGNAME}"
+				}
+			}
+		}
+		stage('ClonePolicy') {
+			steps {
+				withEnv(["PATH+EXTRA=$PROJ"]) {
+					script {
+                 	   def policyId = sh(script: "akamai appsec --section default clone-policy ODPP_78900 --config=40539  --prefix=${env.BUILD_ID}  --json | jq '.policyId'", returnStdout: true).trim()
+                 	   println("policyId = ${policyId}")
+                 	   sh(script: "akamai appsec --section default create-match-target --config=40539 --hostnames=${CONFIGNAME} --paths='/*' --policy=${policyId} ", returnStdout: true).trim()
+                 	   
+                	}
+				}
+			}
+		}
+		stage('ActivateConfig') {
+			steps {
+				withEnv(["PATH+EXTRA=$PROJ"]) {
+					sh "akamai appsec activate --section default --config=40539 --network=${NETWORK} --notes='automated' --notify=maalvare@akamai.com"
+				}
+			}
+		}
+
+
 	}
 }
