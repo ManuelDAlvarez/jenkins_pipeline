@@ -14,10 +14,7 @@ pipeline {
 				//echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
 				//sh "http --auth-type edgegrid -a default: GET :/papi/v1/contracts | jq "
-
-				slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME}, added to the DPP, and push it to ${NETWORK} for ", color: '#777555')
-            
-
+				slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME} add it to the DPP and push it to ${NETWORK} for ", color: '#1E90FF')
 			}
 		}
 		stage('cloneconfig') {
