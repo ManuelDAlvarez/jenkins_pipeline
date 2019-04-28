@@ -11,9 +11,13 @@ pipeline {
 	stages {
 		stage('Messages') {
 			steps {
-				echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+				//echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
 				//sh "http --auth-type edgegrid -a default: GET :/papi/v1/contracts | jq "
+
+				slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME}, added to the DPP, and push it to ${NETWORK} for ", color: '#777555')
+            
+
 			}
 		}
 		stage('cloneconfig') {
@@ -33,7 +37,7 @@ pipeline {
 					//sh "akamai property retrieve PROD.bigmanuel --file metadata.json"
 					archiveArtifacts "metadata.json"
 					sh "cat metadata.json"
-					sh "sed 's/378312/371349/g' metadata.json > 2metadata.json"
+					sh "sed 's/371349/378312/g' metadata.json > 2metadata.json"
 					//archiveArtifacts "metadata.json"
 					archiveArtifacts "2metadata.json"
 					//sh "sed -i -n s/810121/842943/g metadata.json"
@@ -42,7 +46,7 @@ pipeline {
 				}
 			}
 		}
-		stage('updateConfiguration') {https://open.spotify.com/album/6BkeUWI72Lssc077AxqQek
+		stage('updateConfiguration') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai property update ${CONFIGNAME} --file 2metadata.json"
@@ -58,7 +62,6 @@ pipeline {
 				}
 			}
 		}
-
 		stage('CreateNewVersion') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
@@ -94,7 +97,6 @@ pipeline {
 				}
 			}
 		}
-
 
 	}
 }
