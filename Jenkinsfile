@@ -14,21 +14,21 @@ pipeline {
 				//echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
 				//slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME} add it to the DPP and push it to ${NETWORK} for ", color: '#1E90FF')
-				slackSend(botUser: true, message: "${env.JOB_NAME} ", color: '#1E90FF')
+				slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME} add it to the DPP and push it to ${NETWORK} ", color: '#777555')
 			}
 		}
 		stage('cloneconfig') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai property create ${CONFIGNAME} --clone manuel39.edgesuite.net --hostnames ${CONFIGNAME} --edgehostname manuel.origin.edgekey.net"
-					echo "hola"
+					sh "akamai property create ${CONFIGNAME} --clone manuel39.edgesuite.net --hostnames ${CONFIGNAME} --edgehostname manuel.origin.edgekey.net"
+					//echo "hola"
 				}
 			}
 		}
 		stage('updateJSON') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					/*
+					
 					sh "akamai property retrieve ${CONFIGNAME} --file metadata.json"
 					archiveArtifacts "metadata.json"
 					sh "cat metadata.json"
@@ -36,41 +36,41 @@ pipeline {
 					archiveArtifacts "2metadata.json"
 					sh "cat metadata.json"
 					sh "cat 2metadata.json"
-					*/
-					echo "yeeeee"
+					
+					//echo "yeeeee"
 				}
 			}
 		}
 		stage('updateConfiguration') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai property update ${CONFIGNAME} --file 2metadata.json"
-					echo "no"
+					sh "akamai property update ${CONFIGNAME} --file 2metadata.json"
+					//echo "no"
 				}
 			}
 		}
 		stage('activatedelivery') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
-					echo "yes too"
+					sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
+					//echo "yes too"
 				}
 			}
 		}
 		stage('CreateNewVersion') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai appsec --section default clone --config=40539 --version=STAGING"
+					sh "akamai appsec --section default clone --config=40539 --version=STAGING"
 					//${NETWORK}"
-					echo "yes sec"
+					//echo "yes sec"
 				}
 			}
 		}
 		stage('AddHostname') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai appsec --section default add-hostname --config=40539 ${CONFIGNAME}"
-					echo "yes hostnames"
+					sh "akamai appsec --section default add-hostname --config=40539 ${CONFIGNAME}"
+					//echo "yes hostnames"
 				}
 			}
 		}
@@ -78,23 +78,33 @@ pipeline {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					echo "yes"
-					/*script {
+					script {
                  	   def policyId = sh(script: "akamai appsec --section default clone-policy ODPP_78900 --config=40539  --prefix=${env.BUILD_ID}  --json | jq '.policyId'", returnStdout: true).trim()
                  	   println("policyId = ${policyId}")
                  	   sh(script: "akamai appsec --section default create-match-target --config=40539 --hostnames=${CONFIGNAME} --paths='/*' --policy=${policyId} ", returnStdout: true).trim()
                  	   
-                	} */
+                	}
 				}
 			}
 		}
 		stage('ActivateConfig') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//sh "akamai appsec activate --section default --config=40539 --network=${NETWORK} --notes='automated' --notify=maalvare@akamai.com"
-					echo "yes 2"
+					sh "akamai appsec activate --section default --config=40539 --network=${NETWORK} --notes='automated' --notify=maalvare@akamai.com"
+					//echo "yes 2"
 				}
 			}
 		}
 
 	}
+
+	post {
+    	success {
+            slackSend(botUser: true, message: "${env.JOB_NAME} - ${CONFIGNAME} deployed and secured.", color: '#008000')
+        }
+        failure {
+            slackSend(botUser: true, message: "${env.JOB_NAME} - Onboarding of ${CONFIGNAME} failed!", color: '#FF0000')
+        }
+    }
+
 }
