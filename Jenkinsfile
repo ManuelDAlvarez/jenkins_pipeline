@@ -5,9 +5,9 @@ pipeline {
     	string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The domain you are adding to the configurations') 
     	//string(name: 'CONFIGNAME', defaultValue: "manueltest33.edgesuite.net", description: 'The new domain name') 
     }
-    //environment {
-    //	PROJ = "/bin:/usr/local/bin:/usr/bin"
-	//}
+    environment {
+    	PROJ = "/bin:/usr/local/bin:/usr/bin"
+	}
 	stages {
 		stage('Messages') {
 			steps {
