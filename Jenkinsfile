@@ -5,16 +5,16 @@ pipeline {
     	string(name: 'CONFIGNAME', defaultValue: "${env.BUILD_ID}", description: 'The domain you are adding to the configurations') 
     	//string(name: 'CONFIGNAME', defaultValue: "manueltest33.edgesuite.net", description: 'The new domain name') 
     }
-    environment {
-    	PROJ = "/bin:/usr/local/bin:/usr/bin"
-	}
+    //environment {
+    //	PROJ = "/bin:/usr/local/bin:/usr/bin"
+	//}
 	stages {
 		stage('Messages') {
 			steps {
 				//echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 				echo "You say ${NETWORK} for ${CONFIGNAME}"
 				//slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME} add it to the DPP and push it to ${NETWORK} for ", color: '#1E90FF')
-				slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME}, add it to the DPP, and push it to ${NETWORK} ", color: '#777555')
+				//slackSend(botUser: true, message: "${env.JOB_NAME} will create ${CONFIGNAME}, add it to the DPP, and push it to ${NETWORK} ", color: '#777555')
 			}
 		}
 		stage('cloneconfig') {
@@ -77,7 +77,7 @@ pipeline {
 		stage('ClonePolicy') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					echo "yes"
+					//echo "yes"
 					script {
                  	   def policyId = sh(script: "akamai appsec --section default clone-policy ODPP_78900 --config=40539  --prefix=${env.BUILD_ID}  --json | jq '.policyId'", returnStdout: true).trim()
                  	   println("policyId = ${policyId}")
@@ -99,10 +99,12 @@ pipeline {
 	}
 	post {
     	success {
-            slackSend(botUser: true, message: "${env.JOB_NAME} - ${CONFIGNAME} deployed and secured.", color: '#008000')
+            echo "success"
+            //slackSend(botUser: true, message: "${env.JOB_NAME} - ${CONFIGNAME} deployed and secured.", color: '#008000')
         }
         failure {
-            slackSend(botUser: true, message: "${env.JOB_NAME} - Onboarding of ${CONFIGNAME} failed!", color: '#FF0000')
+        	echo "failure"
+            //slackSend(botUser: true, message: "${env.JOB_NAME} - Onboarding of ${CONFIGNAME} failed!", color: '#FF0000')
         }
     }
 }
