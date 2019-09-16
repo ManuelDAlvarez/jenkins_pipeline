@@ -20,7 +20,7 @@ pipeline {
 		stage('cloneconfig') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					sh "akamai property create ${CONFIGNAME} --clone manuel39.edgesuite.net --hostnames ${CONFIGNAME} --edgehostname manuel.origin.edgekey.net"
+					sh "akamai property create ${CONFIGNAME} --clone manuel.demo.com --hostnames ${CONFIGNAME} --edgehostname manuel.origin.edgekey.net"
 					//echo "hola"
 				}
 			}
@@ -32,10 +32,14 @@ pipeline {
 					sh "akamai property retrieve ${CONFIGNAME} --file metadata.json"
 					archiveArtifacts "metadata.json"
 					sh "cat metadata.json"
-					sh "sed 's/371349/378312/g' metadata.json > 2metadata.json"
+					sh "sed 's/371349/378312/g' metadata.json > cpreplace.json"
+					archiveArtifacts "cpreplace.json"
+					sh "sed 's/\"customStatKey\": \"default\"//g' cpreplace.json > statkey.json"
+					archiveArtifacts "statkey.json"
+					sh "sed 's/srDownloadLinkTitle\": \"\",/srDownloadLinkTitle\": \"\"/g' statkey.json > 2metadata.json"
 					archiveArtifacts "2metadata.json"
-					sh "cat metadata.json"
-					sh "cat 2metadata.json"
+					//sh "cat metadata.json"
+					sh "cat 2metadata.json | grep 'srDownloadLinkTitle' "
 					
 					//echo "yeeeee"
 				}
