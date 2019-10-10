@@ -80,7 +80,7 @@ pipeline {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					//echo "yes ClonePolicy"
 					script {
-                 	   def policyId = sh(script: "akamai appsec --section default clone-policy ODPP_78900 --config=40539  --prefix=${env.BUILD_ID}  --json | jq '.policyId'", returnStdout: true).trim()
+                 	   def policyId = sh(script: "akamai appsec --section default clone-policy ODPP_78900 --config=40539  --prefix=${env.BUILD_ID}9  --json | jq '.policyId'", returnStdout: true).trim()
                  	   println("policyId = ${policyId}")
                  	   sh(script: "akamai appsec --section default create-match-target --config=40539 --hostnames=${CONFIGNAME} --paths='/*' --policy=${policyId} ", returnStdout: true).trim()
                  	   
