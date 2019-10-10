@@ -31,17 +31,15 @@ pipeline {
 					
 					sh "akamai property retrieve ${CONFIGNAME} --file metadata.json"
 					archiveArtifacts "metadata.json"
-					sh "cat metadata.json"
+					//sh "cat metadata.json"
 					sh "sed 's/371349/378312/g' metadata.json > cpreplace.json"
 					archiveArtifacts "cpreplace.json"
 					sh "sed 's/\"customStatKey\": \"default\"//g' cpreplace.json > statkey.json"
 					archiveArtifacts "statkey.json"
-					sh "sed 's/srDownloadLinkTitle\": \"\",/srDownloadLinkTitle\": \"\"/g' statkey.json > 2metadata.json"
+					sh "sed 's/toHost\": \"www.kloth.net\",/toHost\": \"www.kloth.net\"/g' statkey.json > 2metadata.json"
 					archiveArtifacts "2metadata.json"
 					//sh "cat metadata.json"
-					sh "cat 2metadata.json | grep 'srDownloadLinkTitle' "
-					
-					//echo "yeeeee"
+					sh "cat 2metadata.json | grep 'toHost' "
 				}
 			}
 		}
@@ -57,7 +55,7 @@ pipeline {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai property activate ${CONFIGNAME} --network ${NETWORK}"
-					//echo "yes too"
+					//echo "yes"
 				}
 			}
 		}
@@ -65,8 +63,7 @@ pipeline {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai appsec --section default clone --config=40539 --version=STAGING"
-					//${NETWORK}"
-					//echo "yes sec"
+					//echo "yes activatedelivery"
 				}
 			}
 		}
@@ -74,14 +71,14 @@ pipeline {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai appsec --section default add-hostname --config=40539 ${CONFIGNAME}"
-					//echo "yes hostnames"
+					//echo "yes AddHostname"
 				}
 			}
 		}
 		stage('ClonePolicy') {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
-					//echo "yes"
+					//echo "yes ClonePolicy"
 					script {
                  	   def policyId = sh(script: "akamai appsec --section default clone-policy ODPP_78900 --config=40539  --prefix=${env.BUILD_ID}  --json | jq '.policyId'", returnStdout: true).trim()
                  	   println("policyId = ${policyId}")
@@ -95,7 +92,7 @@ pipeline {
 			steps {
 				withEnv(["PATH+EXTRA=$PROJ"]) {
 					sh "akamai appsec activate --section default --config=40539 --network=${NETWORK} --notes='automated' --notify=maalvare@akamai.com"
-					//echo "yes 2"
+					//echo "yes ActivateConfig"
 				}
 			}
 		}
